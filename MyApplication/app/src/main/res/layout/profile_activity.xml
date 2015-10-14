@@ -6,13 +6,26 @@
 
     <ImageView
         android:id="@+id/imgBanner"
+        android:contentDescription="image1"
         android:layout_width="500dp"
         android:layout_height="150dp"
         android:scaleType="fitXY"
-        android:src="@drawable/banner"
+        android:src="#121212"
         android:layout_above="@id/lblQuestion"
         android:layout_centerHorizontal="true"
         android:layout_margin="00dp"/>
+
+
+
+    <ImageView
+        android:id="@+id/imgEmojis"
+        android:contentDescription="image2"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/emojis"
+        android:layout_below="@id/imgBanner"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="-20dp"/>
 
     <TextView
         android:id="@+id/lblName"
@@ -23,26 +36,18 @@
         android:layout_centerVertical="true"
         android:layout_below="@id/imgBanner"
         android:layout_marginTop="40dp"
-        android:layout_toRightOf="@id/emojis.png"
+        android:layout_toEndOf="@id/imgEmojis"
         android:textSize="28sp"
         android:gravity="center" />
 
     <ImageView
-        android:id="@+id/emojis.png"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:src="@drawable/emojis"
-        android:layout_below="@id/imgBanner"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="-20dp"/>
-
-    <ImageView
         android:id="@+id/bday.png"
+        android:contentDescription="image3"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:src="@drawable/bday"
         android:layout_below="@id/lblName"
-        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"/>
 
     <TextView
@@ -53,18 +58,19 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/bday.png"
         android:layout_alignBottom="@id/bday.png"
-        android:layout_toRightOf="@id/bday.png"
-        android:layout_marginLeft="15dp"
+        android:layout_toEndOf="@id/bday.png"
+        android:layout_marginStart="15dp"
         android:textSize="20sp"
         android:gravity="center_vertical" />
 
     <ImageView
         android:id="@+id/twitter.png"
+        android:contentDescription="image4"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:src="@drawable/twitter"
         android:layout_below="@id/bday.png"
-        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"/>
 
     <TextView
@@ -75,18 +81,19 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/twitter.png"
         android:layout_alignBottom="@id/twitter.png"
-        android:layout_toRightOf="@id/twitter.png"
-        android:layout_marginLeft="15dp"
+        android:layout_toEndOf="@id/twitter.png"
+        android:layout_marginStart="15dp"
         android:textSize="20sp"
         android:gravity="center_vertical" />
 
     <ImageView
         android:id="@+id/website.png"
+        android:contentDescription="image6"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:src="@drawable/website"
         android:layout_below="@id/twitter.png"
-        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"/>
 
     <TextView
@@ -97,18 +104,19 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/website.png"
         android:layout_alignBottom="@id/website.png"
-        android:layout_toRightOf="@id/website.png"
-        android:layout_marginLeft="15dp"
+        android:layout_toEndOf="@id/website.png"
+        android:layout_marginStart="15dp"
         android:textSize="20sp"
         android:gravity="center_vertical" />
 
     <ImageView
         android:id="@+id/location.png"
+        android:contentDescription="image5"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:src="@drawable/location"
         android:layout_below="@id/website.png"
-        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"/>
 
     <TextView
@@ -119,8 +127,8 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/location.png"
         android:layout_alignBottom="@id/location.png"
-        android:layout_toRightOf="@id/location.png"
-        android:layout_marginLeft="15dp"
+        android:layout_toEndOf="@id/location.png"
+        android:layout_marginStart="15dp"
         android:textSize="20sp"
         android:gravity="center_vertical" />
 

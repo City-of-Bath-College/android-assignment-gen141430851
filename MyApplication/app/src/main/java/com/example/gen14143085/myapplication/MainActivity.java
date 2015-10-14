@@ -1,5 +1,7 @@
 package com.example.gen14143085.myapplication;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,8 +15,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.List;
 import java.util.Random;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,15 +61,16 @@ public class MainActivity extends AppCompatActivity {
                 determineButtonPress(true);
             }
         });
+        generateQuestions();
+        setUpQuestion();
     }
-    generateQuestions();
-    setUpQuestion();
-    }
+
 
    private void generateQuestions(){
 
        questions = new ArrayList<>();
 
+       questions.add(new QuestionObject("Is the capital of England London?", true, R.drawable.englandflag));
        questions.add(new QuestionObject("Is the capital of France Paris?", true, R.drawable.franceflag));
        questions.add(new QuestionObject("Is the capital of Egypt Giza?", false, R.drawable.egyptflag));
        questions.add(new QuestionObject("Is the capital of Czech Republic Prague?", true, R.drawable.czechflag));
@@ -85,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (index == questions.size()) {
             Log.d("JOSH_APP", "ended all the questions");
+            endGame();
         }
 
         else {
@@ -112,6 +116,20 @@ public class MainActivity extends AppCompatActivity {
 
         setUpQuestion();
     }
+
+    private void endGame(){
+        final AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this)
+                .setTitle("Congratulations")
+                .setMessage("You Scored " + score + " points this round!")
+                .setNeutralButton("ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .create();
+        alertDialog.show();
+    }
+
 
 
 
