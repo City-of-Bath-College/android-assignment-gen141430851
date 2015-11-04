@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnFalse;
     private TextView lblQuestion;
     private ImageView imgPicture;
-
+    private TextView lblScore;
     private List<QuestionObject> questions;
 
     private QuestionObject currentQuestion;
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         btnFalse = (Button)findViewById(R.id.btnFalse);
         lblQuestion = (TextView)findViewById(R.id.lblQuestion);
         imgPicture = (ImageView)findViewById(R.id.imgPicture);
-
+        lblScore = (TextView)findViewById(R.id.lblScore);
         lblQuestion.setText("Is London the capital of England?");
         imgPicture.setImageResource(R.drawable.englandflag);
 
@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 determineButtonPress(true);
             }
         });
+
         generateQuestions();
         setUpQuestion();
     }
@@ -108,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
         if (answer == expectedAnswer){
             Toast.makeText(MainActivity.this, "Correct!!", Toast.LENGTH_SHORT).show();
             score++;
+            lblScore.setText("Score: " +Integer.toString(score));
         }
 
         else {
@@ -123,8 +125,9 @@ public class MainActivity extends AppCompatActivity {
                 .setMessage("You Scored " + score + " points this round!")
                 .setNeutralButton("ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-
+                        finish();
                     }
+
                 })
                 .create();
         alertDialog.show();

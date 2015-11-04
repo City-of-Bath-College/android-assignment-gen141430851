@@ -48,4 +48,14 @@
         android:text="FALSE"
         android:textSize="24sp"
         android:padding="10dp"/>
+
+    <TextView
+        android:id="@+id/lblScore"
+        android:textColor="#FFFFFF"
+        android:layout_below="@id/btnFalse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:gravity="center"
+        />
 </RelativeLayout>
