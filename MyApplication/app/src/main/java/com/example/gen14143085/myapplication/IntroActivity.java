@@ -36,7 +36,7 @@ public class IntroActivity extends AppCompatActivity {
         btnHiScores.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent i = new Intent(IntroActivity.this, ProfileActivity.class);
+                Intent i = new Intent(IntroActivity.this, HighScoreActivity.class);
                 startActivity(i);
             }
         });

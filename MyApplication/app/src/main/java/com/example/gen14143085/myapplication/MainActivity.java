@@ -12,10 +12,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.text.InputType;
+import android.widget.EditText;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
+
+import io.paperdb.Paper;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -25,12 +30,13 @@ public class MainActivity extends AppCompatActivity {
     private TextView lblQuestion;
     private ImageView imgPicture;
     private TextView lblScore;
+    private TextView lblHighscores;
     private List<QuestionObject> questions;
 
     private QuestionObject currentQuestion;
     private int index;
     private int score;
-
+    String playerName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         lblQuestion = (TextView)findViewById(R.id.lblQuestion);
         imgPicture = (ImageView)findViewById(R.id.imgPicture);
         lblScore = (TextView)findViewById(R.id.lblScore);
+        lblHighscores = (TextView)findViewById(R.id.lblHighscores);
         lblQuestion.setText("Is London the capital of England?");
         imgPicture.setImageResource(R.drawable.englandflag);
 
@@ -64,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
         generateQuestions();
         setUpQuestion();
+        Paper.init(this);
     }
 
 
@@ -120,18 +128,52 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void endGame(){
+        /*
         final AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this)
                 .setTitle("Congratulations")
                 .setMessage("You Scored " + score + " points this round!")
                 .setNeutralButton("ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
+*/
+                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                        builder.setTitle("Title");
+
+                        final EditText input = new EditText(this);
+
+
+                        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        builder.setView(input);
+
+                        // Set up the buttons
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                playerName = input.getText().toString();
+                            }
+                        });
+
+                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+
+                        builder.show();
+
+                        HighScoreObject highScore = new HighScoreObject(score,"MyName", new Date().getTime());
+
+
+                        List<HighScoreObject> highScores = Paper.book().read("highscores", new ArrayList<HighScoreObject>());
+
+                        highScores.add(highScore);
+
+                        Paper.book().write("highscores", highScores);
+
                         finish();
                     }
 
-                })
-                .create();
-        alertDialog.show();
-    }
 
 
 
