@@ -19,10 +19,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.Collections;
+import java.util.Comparator;
 
 import io.paperdb.Paper;
 
-
+//defining variables
 public class MainActivity extends AppCompatActivity {
 
     private Button btnTrue;
@@ -33,10 +35,11 @@ public class MainActivity extends AppCompatActivity {
     private TextView lblHighscores;
     private List<QuestionObject> questions;
 
+
     private QuestionObject currentQuestion;
     private int index;
     private int score;
-    String playerName;
+    private String playerName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
         lblQuestion = (TextView)findViewById(R.id.lblQuestion);
         imgPicture = (ImageView)findViewById(R.id.imgPicture);
         lblScore = (TextView)findViewById(R.id.lblScore);
-        lblHighscores = (TextView)findViewById(R.id.lblHighscores);
         lblQuestion.setText("Is London the capital of England?");
         imgPicture.setImageResource(R.drawable.englandflag);
 
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-   private void generateQuestions(){
+   private void generateQuestions(){ //loads question list
 
        questions = new ArrayList<>();
 
@@ -90,10 +92,22 @@ public class MainActivity extends AppCompatActivity {
        questions.add(new QuestionObject("Is the capital of Cameroon Douala?", false, R.drawable.cameroonflag));
        questions.add(new QuestionObject("Is the capital of Uzbekistan Tashkent?", true, R.drawable.uzbekistanflag));
 
+       //more questions
+       questions.add(new QuestionObject("Is the capital of Bosnia and Herzegovina Sarajevo?", true, R.drawable.bosniaflag));
+       questions.add(new QuestionObject("Is the capital of Sweden Stockholm?", true, R.drawable.swedenflag));
+       questions.add(new QuestionObject("Is the capital of Mali Sikasso?", false, R.drawable.maliflag));
+       questions.add(new QuestionObject("Is the capital of Holland Amsterdam?", true, R.drawable.netherlandsflag));
+       questions.add(new QuestionObject("Is the capital of Senegal Pikine?", false, R.drawable.senegalflag));
+       questions.add(new QuestionObject("Is the capital of Cuba Santiago de Cuba?", false, R.drawable.cubaflag));
+       questions.add(new QuestionObject("Is the capital of Canada Toronto?", false, R.drawable.canadaflag));
+       questions.add(new QuestionObject("Is the capital of South_Korea Incheon?", false, R.drawable.southkoreaflag));
+       questions.add(new QuestionObject("Is the capital of Andorra Canillo?", false, R.drawable.andorraflag));
+       questions.add(new QuestionObject("Is the capital of Palau Ngerulmud?", true, R.drawable.palauflag));
+
 
     }
 
-    private void setUpQuestion(){
+    private void setUpQuestion(){ //loads text and image of each question
 
         if (index == questions.size()) {
             Log.d("JOSH_APP", "ended all the questions");
@@ -114,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
     private void determineButtonPress(boolean answer){
         boolean expectedAnswer = currentQuestion.isAnswer();
 
-        if (answer == expectedAnswer){
+        if (answer == expectedAnswer){ //if answer is correct add 1 to score
             Toast.makeText(MainActivity.this, "Correct!!", Toast.LENGTH_SHORT).show();
             score++;
             lblScore.setText("Score: " +Integer.toString(score));
@@ -124,70 +138,89 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "Wrong!!", Toast.LENGTH_SHORT).show();
         }
 
-        setUpQuestion();
+        setUpQuestion(); //sets up next question
     }
 
     private void endGame(){
-        /*
-        final AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this)
-                .setTitle("Congratulations")
-                .setMessage("You Scored " + score + " points this round!")
-                .setNeutralButton("ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-*/
-                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                        builder.setTitle("Title");
 
-                        final EditText input = new EditText(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Title");
+        builder.setMessage("You scored " + score + " points! Please enter your name:");
+
+        final EditText input = new EditText(this);
 
 
-                        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-                        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                        builder.setView(input);
+        //Specify the type of input expected
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
 
-                        // Set up the buttons
-                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                playerName = input.getText().toString();
-                            }
-                        });
+        //Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            playerName = input.getText().toString();
 
-                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
+            //Create new highscore
+            HighScoreObject highScore = new HighScoreObject();
+            highScore.score = score;
+            highScore.name = playerName;
+            highScore.timestamp = new Date().getTime();
 
-                        builder.show();
+            //Load highscores using paper
+            List<HighScoreObject> highScores = Paper.book().read("highscores", new ArrayList<HighScoreObject>());
 
-                        HighScoreObject highScore = new HighScoreObject(score,"MyName", new Date().getTime());
+            //Add item
+            highScores.add(highScore);
 
+            //Sort highscores by score then timestamp
 
-                        List<HighScoreObject> highScores = Paper.book().read("highscores", new ArrayList<HighScoreObject>());
-
-                        highScores.add(highScore);
-
-                        Paper.book().write("highscores", highScores);
-
-                        finish();
+            Collections.sort(highScores, new Comparator<HighScoreObject>() {
+                @Override
+                public int compare(HighScoreObject lhs, HighScoreObject rhs) {
+                    //First compare scores
+                    if(lhs.score > rhs.score){
+                        return 1;
                     }
+                    else if(lhs.score < rhs.score){
+                        return -1;
+                    }
+                    //if scores are equal, whichever score was set first will be on top
+                    else if(lhs.timestamp > rhs.timestamp){
+                        return 1;
+                    }
+                    else if(lhs.timestamp < rhs.timestamp){
+                        return -1;
+                    }
+                    else{
+                        //Scores and timestamp equal
+                        return 0;
+                    }
+                }
+            });
 
+            // Reverse highscores
+            Collections.reverse(highScores);
 
+            // Write using paper
+            Paper.book().write("highscores", highScores);
+            Log.d("JOSH_APP", "Saving high scores!");
 
+            finish();
+        }
+    });
 
+    //cancel button
+    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            dialog.cancel();
+            finish();
+        }
+    });
 
+    builder.show();
 
-
-
-
-
-
-
-
-
-
+}
 
 
     @Override

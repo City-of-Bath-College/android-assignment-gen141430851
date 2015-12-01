@@ -4,17 +4,17 @@ package com.example.gen14143085.myapplication;
  * Created by gen14143085 on 07/10/2015.
  */
 public class QuestionObject {
-
+    //members
     private String question;
     private boolean answer;
     private int picture;
-
+//constructor
     public QuestionObject(String question, boolean answer, int picture) {
         this.question = question;
         this.answer = answer;
         this.picture = picture;
     }
-
+//methods
     public String getQuestion() {
         return question;
     }
