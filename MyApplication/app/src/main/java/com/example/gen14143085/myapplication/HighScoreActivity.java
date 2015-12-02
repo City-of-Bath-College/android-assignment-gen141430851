@@ -72,7 +72,7 @@ public class HighScoreActivity extends AppCompatActivity {
                                R.layout.row_highscore, null);
             }
 
-            //get the highscore object for the row we're looking at
+            //get the highscore object
             HighScoreObject highScore = highScores.get(position);
             Date date = new Date(highScore.getTimestamp());
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
